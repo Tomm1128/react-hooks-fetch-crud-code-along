@@ -10,18 +10,23 @@ function ShoppingList() {
   useEffect(() => {
     fetch("http://localhost:4000/items")
       .then(resp => resp.json())
-      .then(items => setItems(items));
+      .then(items => setItems(items))
   }, [])
+
+  function handleDeleteItem(deletedItem) {
+    const updatedItems = items.filter(item => item.id !== deletedItem.id)
+    setItems(updatedItems)
+  }
 
   function handleUpdateItem(updatedItem) {
     const updatedItems = items.map((item) => {
       if (item.id === updatedItem.id) {
-        return updatedItem;
+        return updatedItem
       } else {
-        return item;
+        return item
       }
     });
-    setItems(updatedItems);
+    setItems(updatedItems)
   }
 
   function handleAddItem(newItem) {
@@ -47,7 +52,12 @@ function ShoppingList() {
       />
       <ul className="Items">
         {itemsToDisplay.map((item) => (
-          <Item key={item.id} item={item} onUpdateItem={handleUpdateItem} />
+          <Item
+            key={item.id}
+            item={item}
+            onUpdateItem={handleUpdateItem}
+            onDeleteItem={handleDeleteItem}
+          />
         ))}
       </ul>
     </div>
